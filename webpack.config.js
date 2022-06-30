@@ -4,10 +4,20 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const baseConfig = {
-    entry: path.resolve(__dirname, './src/index.js'),
+    entry: path.resolve(__dirname, './src/index.ts'),
     mode: 'development',
     module: {
         rules: [
+            {
+                // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
+                test: /\.tsx?$/,
+                loader: 'ts-loader',
+            },
+            {
+                // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+                test: /\.js$/,
+                loader: 'source-map-loader',
+            },
             {
                 test: /\.css$/i,
                 use: ['style-loader', 'css-loader'],
@@ -15,7 +25,7 @@ const baseConfig = {
         ],
     },
     resolve: {
-        extensions: ['.js'],
+        extensions: ['.ts', '.tsx', '.js'],
     },
     output: {
         filename: 'index.js',
