@@ -1,3 +1,6 @@
+import { ArticlesResponse } from "../model/ArticlesResponse";
+import { SourcesResponse } from "../model/SourcesResponse";
+
 export type QueryParams = {
     [k: string]: string,
 }
@@ -5,6 +8,10 @@ export type QueryParams = {
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
 export type Action = () => void;
+
+export type ArticlesResponseHandler = (data: ArticlesResponse) => void;
+export type SourcesResponseHandler = (data: SourcesResponse) => void;
+export type ResponseHandler = ArticlesResponseHandler | SourcesResponseHandler;
 
 class Loader {
     constructor(
@@ -14,7 +21,7 @@ class Loader {
 
     getResp(
         { endpoint, options = {} }: { endpoint: string, options?: QueryParams },
-        callback = () => {
+        callback: ResponseHandler = () => {
             console.error('No callback for GET response');
         }
     ): void {
@@ -45,7 +52,7 @@ class Loader {
     load(
         method: HttpMethod,
         endpoint: string,
-        callback: (data: JSON) => void,
+        callback: ResponseHandler,
         options: QueryParams = {}
     ): void {
         fetch(this.makeUrl(options, endpoint), { method })

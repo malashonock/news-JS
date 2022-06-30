@@ -3,7 +3,8 @@
   "compilerOptions": {
     "module": "ES2015",
     "outDir": "./dist",
-    // "noImplicitAny": true,
+    "noImplicitAny": true,
+    "sourceMap": true,
   },
   "include": [
     "./src/**/*"
